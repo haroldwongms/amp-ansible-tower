@@ -65,7 +65,7 @@
         "description": "Base URL for Marketplace Deployment",
         "artifactsBaseUrl": ""
       },
-      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/ansible-tower-rhel",
+      "defaultValue": "https://raw.githubusercontent.com/haroldwongms/master/amp-ansible-tower",
     }
   },
   "variables": {
@@ -73,7 +73,7 @@
     "towerAvSet": "tower-avset",
     "ansibleNsgName": "tower-nsg",
     "towerStorageAccountName": "[concat('towstorage',uniqueString(resourceGroup().id))]",
-    "StorageAccountType": "Standard_GRS",
+    "StorageAccountType": "Standard_LRS",
     "diagStorageAccountName": "[concat('dgstorage',uniqueString(resourceGroup().id))]",
     "ansibleVnetName": "ansible-vnet",
     "ansibleVnetPrefix": "10.0.0.0/16",
@@ -91,12 +91,8 @@
     "customScriptCommand": "[concat(variables('scriptStart'), variables('scriptFileName'), ' ')]",
     "scriptClose": "'",
     "redHatTags": {
-      "type": "object",
+      "app": "AnsibleTower",
       "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc"
-      },
-    "quickstartTags": {
-      "type": "object",
-      "name": "ansible-tower-rhel"
       }
   },
   "resources": [
@@ -108,8 +104,8 @@
       "comments": "This availability set will consist of ansible tower installed virtual machine",
       "tags": {
         "displayName": "Availabilty Set-Tower",
-        "quickstartName": "[variables('quickstartTags').name]",        
-        "provider": "[variables('redHatTags').provider]"
+        "provider": "[variables('redHatTags').provider]",
+        "app": "[variables('redHatTags').app]"
       },
       "properties": {
       }
@@ -121,9 +117,9 @@
       "location": "[resourceGroup().location]",
       "comments": "This will have firewall rules for Ansible Tower Virtual machine",
       "tags": {
-        "displayName": "Tower-NSG",
-        "quickstartName": "[variables('quickstartTags').name]",        
-        "provider": "[variables('redHatTags').provider]"
+        "displayName": "Tower-NSG",    
+        "provider": "[variables('redHatTags').provider]",
+        "app": "[variables('redHatTags').app]"
       },
       "properties": {
         "securityRules": [
@@ -189,9 +185,9 @@
       "location": "[resourceGroup().location]",
       "comments": "This storage account is used to store the VM disks of ansible tower vm",
       "tags": {
-        "displayName": "Tower Storage Account",
-        "quickstartName": "[variables('quickstartTags').name]",        
-        "provider": "[variables('redHatTags').provider]"
+        "displayName": "Tower Storage Account",    
+        "provider": "[variables('redHatTags').provider]",
+        "app": "[variables('redHatTags').app]"
       },
       "properties": {
         "accountType": "[variables('StorageAccountType')]"
@@ -204,9 +200,9 @@
       "location": "[resourceGroup().location]",
       "comments": "This storage account is used for diagnostic data for all vms",
       "tags": {
-        "displayName": "Diagnostics Storage Account",
-        "quickstartName": "[variables('quickstartTags').name]",        
-        "provider": "[variables('redHatTags').provider]"
+        "displayName": "Diagnostics Storage Account",   
+        "provider": "[variables('redHatTags').provider]",
+        "app": "[variables('redHatTags').app]"
       },
       "properties": {
         "accountType": "Standard_LRS"
@@ -219,9 +215,9 @@
       "location": "[resourceGroup().location]",
       "comments": "This Virtual Network contains all the VMs needed",
       "tags": {
-        "displayName": "Ansible-Virtual Network",
-        "quickstartName": "[variables('quickstartTags').name]",        
-        "provider": "[variables('redHatTags').provider]"
+        "displayName": "Ansible-Virtual Network",      
+        "provider": "[variables('redHatTags').provider]",
+        "app": "[variables('redHatTags').app]"
       },
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkSecurityGroups', variables('ansibleNsgName'))]"
@@ -252,9 +248,9 @@
       "location": "[resourceGroup().location]",
       "comments": "This Public IP is used by the Ansible Tower installed VM",
       "tags": {
-        "displayName": "Public IP Address -Tower VM",
-        "quickstartName": "[variables('quickstartTags').name]",        
-        "provider": "[variables('redHatTags').provider]"
+        "displayName": "Public IP Address -Tower VM",    
+        "provider": "[variables('redHatTags').provider]",
+        "app": "[variables('redHatTags').app]"
       },
       "properties": {
         "publicIPAllocationMethod": "Static",
@@ -270,9 +266,9 @@
       "location": "[resourceGroup().location]",
       "comments": "These NIC will be used by Ansible Tower VM",
       "tags": {
-        "displayName": "NIC Tower VM",
-        "quickstartName": "[variables('quickstartTags').name]",        
-        "provider": "[variables('redHatTags').provider]"
+        "displayName": "NIC Tower VM",    
+        "provider": "[variables('redHatTags').provider]",
+        "app": "[variables('redHatTags').app]"
       },
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks', variables('ansibleVnetName'))]",
@@ -302,9 +298,9 @@
       "location": "[resourceGroup().location]",
       "comments": "This VM will be used as Ansible Tower VM",
       "tags": {
-        "displayName": "VM-AnsibleTower",
-        "quickstartName": "[variables('quickstartTags').name]",        
-        "provider": "[variables('redHatTags').provider]"
+        "displayName": "VM-AnsibleTower", 
+        "provider": "[variables('redHatTags').provider]",
+        "app": "[variables('redHatTags').app]"
       },
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', variables('towerStorageAccountName'))]",
@@ -372,8 +368,8 @@
           "comments": "These VM Extensions are used to setup ansible tower on the VM",
           "tags": {
             "displayName": "CustomInstallTower",
-            "quickstartName": "[variables('quickstartTags').name]",        
-            "provider": "[variables('redHatTags').provider]"
+            "provider": "[variables('redHatTags').provider]",
+        "app": "[variables('redHatTags').app]"
           },
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmTowerName'))]"
