@@ -11,6 +11,9 @@
     "vmSize": {
       "value": "GEN-UNIQUE"
 	},
+    "vmTowerName": {
+      "value": "GEN-UNIQUE"
+	},
     "ansibleTowerAdminPassword": {
       "value": "GEN-PASSWORD"
     },
