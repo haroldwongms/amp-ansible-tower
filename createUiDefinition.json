@@ -84,16 +84,16 @@
 				"name": "ansibleTowerAdminPassword",
 				"type": "Microsoft.Common.PasswordBox",
 				"label": {
-					"password": "Password for the Ansible Tower Console Admin",
-					"confirmPassword": "Confirm Password for the Ansible Tower Console Admin"
+					"password": "Password for Ansible Tower Console Admin",
+					"confirmPassword": "Confirm Password for  Ansible Tower Console Admin"
 				},
 				"toolTip": {
-					"password": "Password for the Ansible Tower Console Admin. Must be between 5 and 30 characters."
+					"password": "Password for Ansible Tower Console Admin. Must be between 5 and 30 characters."
 				},
 				"constraints": {
 					"required": true,
 					"regex": "^.{5,30}$",
-					"validationMessage": "Enter a password the Ansible Tower Console Admin. The password must be 5-30 characters long."
+					"validationMessage": "Enter a password for Ansible Tower Console Admin. The password must be 5-30 characters long."
 				},
 				"options": {
 					"hideConfirmation": false
@@ -103,7 +103,7 @@
 				"type": "Microsoft.Common.PasswordBox",
 				"label": {
 					"password": "Password for Ansible Tower Database",
-					"confirmPassword": "Confirm Password for the Ansible Tower Database"
+					"confirmPassword": "Confirm Password for Ansible Tower Database"
 				},
 				"toolTip": {
 					"password": "Password for Ansible Tower Database. Must be between 5 and 30 characters."
@@ -111,7 +111,7 @@
 				"constraints": {
 					"required": true,
 					"regex": "^.{5,30}$",
-					"validationMessage": "Enter a password the Ansible Tower Database. The password must be 5-30 characters long."
+					"validationMessage": "Enter a password for Ansible Tower Database. The password must be 5-30 characters long."
 				},
 				"options": {
 					"hideConfirmation": false

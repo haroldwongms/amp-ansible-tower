@@ -18,10 +18,6 @@
       "type": "string",
       "defaultValue": "Standard_DS2_v2",
       "allowedValues": [
-        "Standard_D1","Standard_D2", "Standard_D3", "Standard_D4",
-        "Standard_D11", "Standard_D12", "Standard_D13", "Standard_D14",
-        "Standard_D2_v2", "Standard_D3_v2", "Standard_D4_v2", "Standard_D5_v2",
-        "Standard_D11_v2", "Standard_D12_v2", "Standard_D13_v2", "Standard_D14_v2",
         "Standard_DS1","Standard_DS2", "Standard_DS3", "Standard_DS4",
         "Standard_DS11", "Standard_DS12", "Standard_DS13", "Standard_DS14",
         "Standard_DS1_v2","Standard_DS2_v2", "Standard_DS3_v2", "Standard_DS4_v2", "Standard_DS5_v2",
@@ -51,21 +47,13 @@
         "description": "Password for ansible tower database(min length:5)"
       }
     },
-    "remoteAllowedCIDR": {
-      "type": "string",
-      "minLength": 7,
-      "defaultValue": "0.0.0.0/0",
-      "metadata": {
-        "description": "Enter Public IP CIDR to allow for accessing the deployment.Enter in 0.0.0.0/0 format. You can always modify these later in NSG Settings"
-      }
-    },
     "baseUrl": {
       "type": "string",
       "metadata": {
         "description": "Base URL for Marketplace Deployment",
         "artifactsBaseUrl": ""
       },
-      "defaultValue": "https://raw.githubusercontent.com/haroldwongms/master/amp-ansible-tower",
+      "defaultValue": "https://raw.githubusercontent.com/haroldwongms/master/amp-ansible-tower"
     }
   },
   "variables": {
@@ -82,7 +70,6 @@
     "towerSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets/',variables('ansibleVnetName'), variables('ansibleVnetTowerSubnetName'))]",
     "pipTowerName": "public-ip-tower",
     "pipTowerDnsName": "[concat('tower',uniqueString(resourceGroup().id))]",
-    "vmTowerName": "vm-ansible-tower",
     "vmAnsibleTowerNicName": "[concat(parameters('vmTowerName'),'-nic')]",
     "storageAccountContainerName": "vhds",
     "sshKeyPath": "[concat('/home/',parameters('vmAnsibleTowerUsername'),'/.ssh/authorized_keys')]",
@@ -132,7 +119,7 @@
               "direction": "Inbound",
               "priority": 201,
               "protocol": "Tcp",
-              "sourceAddressPrefix": "[parameters('remoteAllowedCIDR')]",
+              "sourceAddressPrefix": "*",
               "sourcePortRange": "*"
             }
           },
@@ -145,7 +132,7 @@
               "direction": "Inbound",
               "priority": 202,
               "protocol": "Tcp",
-              "sourceAddressPrefix": "[parameters('remoteAllowedCIDR')]",
+              "sourceAddressPrefix": "*",
               "sourcePortRange": "*"
             }
           },
@@ -158,7 +145,7 @@
               "direction": "Inbound",
               "priority": 203,
               "protocol": "Tcp",
-              "sourceAddressPrefix": "[parameters('remoteAllowedCIDR')]",
+              "sourceAddressPrefix": "*",
               "sourcePortRange": "*"
             }
           },
@@ -171,7 +158,7 @@
               "direction": "Inbound",
               "priority": 200,
               "protocol": "Tcp",
-              "sourceAddressPrefix": "[parameters('remoteAllowedCIDR')]",
+              "sourceAddressPrefix": "*",
               "sourcePortRange": "*"
             }
           }
@@ -369,7 +356,7 @@
           "tags": {
             "displayName": "CustomInstallTower",
             "provider": "[variables('redHatTags').provider]",
-        "app": "[variables('redHatTags').app]"
+            "app": "[variables('redHatTags').app]"
           },
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmTowerName'))]"
@@ -399,6 +386,10 @@
     },
     "ansibleTowerFqdn": {
       "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',variables('pipTowerName'))).dnsSettings.fqdn]",
+      "type": "string"
+    },
+    "ansibleTowerAdmin": {
+      "value": "Ansible Tower Admin Name: admin",
       "type": "string"
     }
   }
